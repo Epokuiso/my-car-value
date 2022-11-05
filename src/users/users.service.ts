@@ -26,12 +26,16 @@ export class UsersService
         return this.repository.find();
     }   
 
-    update ()
+    async update (id: number, properties: Partial<User>)
     {
-
+        const userToBeUpdated =  await this.findOne (id);
+        if (!userToBeUpdated)
+            throw new Error ('User not found.');
+        Object.assign (userToBeUpdated, properties);
+        return this.repository.save (userToBeUpdated);
     }
 
-    remove ()
+    remove (id: number)
     {
 
     }

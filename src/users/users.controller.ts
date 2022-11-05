@@ -19,20 +19,32 @@ export class UsersController
     ) {}
 
     @Post('/auth/signup')
-    createUser (@Body () userInformation: CreateUserDTO)
+    create (@Body () userInformation: CreateUserDTO)
     {
         this.usersService.create (userInformation.email, userInformation.password);        
     }
 
     @Get()
-    findAllUsers ()
+    findAll ()
     {
         return this.usersService.find ();
     }
 
     @Get('/:id')
-    findUser (@Param('id') id: string)
+    find (@Param ('id') id: string)
     {
-        return this.usersService.findOne (parseInt(id)); 
+        return this.usersService.findOne (parseInt (id)); 
+    }
+
+    @Patch('/:id')
+    update (@Param ('id') id: string, @Body() updateInformation: Partial<CreateUserDTO>)
+    {
+        return this.usersService.update (parseInt (id), updateInformation);
+    }
+
+    @Delete('/:id')
+    delete (@Param ('id') id: string)
+    {
+        return this.usersService.remove (parseFloat (id));
     }
 }
