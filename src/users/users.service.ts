@@ -15,4 +15,24 @@ export class UsersService
         const newUser = this.repository.create ({ email, password });
         return this.repository.save (newUser);
     }
+
+    findOne (id: number)
+    {
+        return this.repository.findOneBy({id});
+    }
+
+    find ()
+    {
+        return this.repository.find();
+    }   
+
+    update ()
+    {
+
+    }
+
+    remove ()
+    {
+
+    }
 }

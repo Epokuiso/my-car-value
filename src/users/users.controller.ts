@@ -5,28 +5,34 @@ import {
     Patch, 
     Delete, 
     Param, 
-    Body 
+    Body, 
+    ParseIntPipe
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 
-@Controller('/auth')
+@Controller('/users')
 export class UsersController 
 {
     constructor (
         private usersService: UsersService
     ) {}
 
-    @Post('/signup')
+    @Post('/auth/signup')
     createUser (@Body () userInformation: CreateUserDTO)
     {
         this.usersService.create (userInformation.email, userInformation.password);        
     }
 
-    @Get('/:id')
-    findUser (@Param() id: string)
+    @Get()
+    findAllUsers ()
     {
-        console.log (id);
-        return "Hello World";
+        return this.usersService.find ();
+    }
+
+    @Get('/:id')
+    findUser (@Param('id') id: string)
+    {
+        return this.usersService.findOne (parseInt(id)); 
     }
 }
