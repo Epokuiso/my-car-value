@@ -6,8 +6,7 @@ import {
     Delete, 
     Param, 
     Body,
-    UseInterceptors,
-    ClassSerializerInterceptor
+    Query
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
@@ -30,9 +29,9 @@ export class UsersController
     }
 
     @Get()
-    findAll ()
+    findAll (@Query ('email') email: string)
     {
-        return this.usersService.find ();
+        return this.usersService.find (email);
     }
 
     @Get('/:id')
