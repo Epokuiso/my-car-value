@@ -5,10 +5,12 @@ import {
     Patch, 
     Delete, 
     Param, 
-    Body, 
-    ParseIntPipe
+    Body,
+    UseInterceptors,
+    ClassSerializerInterceptor
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
+import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('/users')
@@ -30,6 +32,8 @@ export class UsersController
         return this.usersService.find ();
     }
 
+
+    @UseInterceptors (ClassSerializerInterceptor)
     @Get('/:id')
     find (@Param ('id') id: string)
     {
@@ -37,7 +41,7 @@ export class UsersController
     }
 
     @Patch('/:id')
-    update (@Param ('id') id: string, @Body() updateInformation: Partial<CreateUserDTO>)
+    update (@Param ('id') id: string, @Body() updateInformation: UpdateUserDTO)
     {
         return this.usersService.update (parseInt (id), updateInformation);
     }
