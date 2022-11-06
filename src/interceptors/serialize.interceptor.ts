@@ -9,7 +9,11 @@ import { map } from "rxjs/operators";
 import { plainToClass } from "class-transformer";
 
 
-export function Serialize (dataTransferObject: any)
+interface ClassConstructor {
+    new (...args: any []): {}
+}
+
+export function Serialize (dataTransferObject: ClassConstructor)
 {
     return UseInterceptors (new SerializeInterceptor (dataTransferObject));
 }
