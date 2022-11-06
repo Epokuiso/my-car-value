@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user-dto';
 
+@Serialize (UserDTO)
 @Controller('/users')
 export class UsersController 
 {
@@ -34,8 +35,6 @@ export class UsersController
         return this.usersService.find ();
     }
 
-
-    @Serialize (UserDTO)
     @Get('/:id')
     find (@Param ('id') id: string)
     {
