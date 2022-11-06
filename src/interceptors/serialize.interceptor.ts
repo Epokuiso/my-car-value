@@ -11,10 +11,12 @@ import { UserDTO } from "src/users/dtos/user-dto";
 
 export class SerializeInterceptor implements NestInterceptor
 {
+    constructor (private dataTransferObject: any) {}
+
     intercept (context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise <any>
     {
         return next.handle ().pipe(
-            map ((data: any ) => plainToClass (UserDTO, data, {
+            map ((data: any ) => plainToClass (this.dataTransferObject, data, {
                     excludeExtraneousValues: true
                 })
             )
