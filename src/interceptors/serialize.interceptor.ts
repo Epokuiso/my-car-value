@@ -7,8 +7,12 @@ import {
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { plainToClass } from "class-transformer";
-import { UserDTO } from "src/users/dtos/user-dto";
 
+
+export function Serialize (dataTransferObject: any)
+{
+    return UseInterceptors (new SerializeInterceptor (dataTransferObject));
+}
 export class SerializeInterceptor implements NestInterceptor
 {
     constructor (private dataTransferObject: any) {}

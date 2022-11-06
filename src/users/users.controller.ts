@@ -12,7 +12,7 @@ import {
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user-dto';
 
 @Controller('/users')
@@ -35,7 +35,7 @@ export class UsersController
     }
 
 
-    @UseInterceptors (new SerializeInterceptor (UserDTO))
+    @Serialize (UserDTO)
     @Get('/:id')
     find (@Param ('id') id: string)
     {
