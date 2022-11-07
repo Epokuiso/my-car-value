@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -31,6 +31,8 @@ export class UsersService
 
     async findByEmail (email: string)
     {
+        if (!email)
+            throw new BadRequestException ('The user is not logged in');
         return await this.repository.findBy ({email});
     }
 
