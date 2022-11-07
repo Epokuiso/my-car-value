@@ -27,6 +27,12 @@ export class UsersController
         private authService: AuthService
     ) {}
 
+    @Get ('/whoAmI')
+    whoAmI (@Session () session: any)
+    {
+        return this.usersService.findByEmail (session.userId.email);
+    }    
+
     @Post('/auth/signup')
     create (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
@@ -36,9 +42,9 @@ export class UsersController
     }
 
     @Post('/auth/signin')
-    signin (@Body () userInformation: CreateUserDTO, @Session () session: any)
+    async signin (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
-        const user = this.authService.signin (userInformation.email, userInformation.password);
+        const user = await this.authService.signin (userInformation.email, userInformation.password);
         session.userId =  user;
         return user;
     }
