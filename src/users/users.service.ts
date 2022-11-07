@@ -24,16 +24,18 @@ export class UsersService
         return requestedUser;
     }
 
-    async find (email: string)
+    async find ()
     {
-        if (email)
-        {    
-            const requestedUser = await this.repository.findOneBy ({email});
-            if (!requestedUser) return new NotFoundException ('User not found');
-            return requestedUser;
-        }
         return await this.repository.find();
     }   
+
+    async findByEmail (email: string)
+    {
+        const requestedUser = await this.repository.findBy ({email});
+        if (!requestedUser.length)
+            throw new NotFoundException ('The user was not found');
+        return requestedUser;
+    }
 
     async update (id: number, properties: Partial<User>)
     {

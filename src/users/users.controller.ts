@@ -13,25 +13,29 @@ import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user-dto';
+import { AuthService } from './auth.service';
 
 @Serialize (UserDTO)
 @Controller('/users')
 export class UsersController 
 {
     constructor (
-        private usersService: UsersService
+        private usersService: UsersService,
+        private authService: AuthService
     ) {}
 
     @Post('/auth/signup')
     create (@Body () userInformation: CreateUserDTO)
     {
-        this.usersService.create (userInformation.email, userInformation.password);        
+        return this.authService.signup (userInformation.email, userInformation.password);        
     }
 
     @Get()
     findAll (@Query ('email') email: string)
     {
-        return this.usersService.find (email);
+        if (email)
+            return this.usersService.findByEmail (email);
+        return this.usersService.find ();
     }
 
     @Get('/:id')
