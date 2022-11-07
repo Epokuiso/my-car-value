@@ -6,7 +6,10 @@ import {
     Delete, 
     Param, 
     Body,
-    Query
+    Query,
+    Session,
+    Response,
+    Request
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
@@ -25,15 +28,19 @@ export class UsersController
     ) {}
 
     @Post('/auth/signup')
-    create (@Body () userInformation: CreateUserDTO)
+    create (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
-        return this.authService.signup (userInformation.email, userInformation.password);        
+        const user = this.authService.signup (userInformation.email, userInformation.password);
+        session.userId =  user;
+        return user;      
     }
 
     @Post('/auth/signin')
-    signin (@Body () userInformation: CreateUserDTO)
+    signin (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
-        return this.authService.signin (userInformation.email, userInformation.password);
+        const user = this.authService.signin (userInformation.email, userInformation.password);
+        session.userId =  user;
+        return user;
     }
 
     @Get()
