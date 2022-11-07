@@ -30,6 +30,12 @@ export class UsersController
         return this.authService.signup (userInformation.email, userInformation.password);        
     }
 
+    @Post('/auth/signin')
+    signin (@Body () userInformation: CreateUserDTO)
+    {
+        return this.authService.signin (userInformation.email, userInformation.password);
+    }
+
     @Get()
     findAll (@Query ('email') email: string)
     {
