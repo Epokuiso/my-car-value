@@ -7,8 +7,7 @@ import {
     Param, 
     Body,
     Query,
-    Session,
-    UseInterceptors
+    Session
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
@@ -17,10 +16,8 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user-dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { User } from './user.entity';
 
-@UseInterceptors(CurrentUserInterceptor)
 @Serialize (UserDTO)
 @Controller('/users')
 export class UsersController 
@@ -29,14 +26,6 @@ export class UsersController
         private usersService: UsersService,
         private authService: AuthService
     ) {}
-
-    
-
-    // @Get ('/auth/whoami')
-    // whoAmI (@Session () session: any)
-    // {
-    //     return this.usersService.findByEmail (session.userId?.email);
-    // }    
     
     @Get ('/auth/whoami')
     whoAmI (@CurrentUser () user: User)
