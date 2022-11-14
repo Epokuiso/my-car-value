@@ -31,8 +31,6 @@ export class UsersService
 
     async findByEmail (email: string)
     {
-        if (!email)
-            throw new BadRequestException ('The user is not logged in');
         return await this.repository.findBy ({email});
     }
 
