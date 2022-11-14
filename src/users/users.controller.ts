@@ -8,7 +8,8 @@ import {
     Body,
     Query,
     Session,
-    UseGuards
+    UseGuards,
+    NotFoundException
 } from '@nestjs/common';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
@@ -20,7 +21,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
 
-@Serialize (UserDTO)
+// @Serialize (UserDTO)
 @Controller('/users')
 export class UsersController 
 {
@@ -29,7 +30,7 @@ export class UsersController
         private authService: AuthService
     ) {}
     
-    @UseGuards (AuthGuard)
+    // @UseGuards (AuthGuard)
     @Get ('/auth/whoami')
     whoAmI (@CurrentUser () user: User)
     {
@@ -59,7 +60,7 @@ export class UsersController
     }
 
     @Get()
-    findAll (@Query ('email') email: string)
+    async findAll (@Query ('email') email: string)
     {
         if (email)
             return this.usersService.findByEmail (email);

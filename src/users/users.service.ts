@@ -31,7 +31,10 @@ export class UsersService
 
     async findByEmail (email: string)
     {
-        return await this.repository.findBy ({email});
+        const findUser = await this.repository.findBy ({email});
+        if (!findUser)
+            throw new NotFoundException('User not found');
+        return findUser;
     }
 
     async update (id: number, properties: Partial<User>)
