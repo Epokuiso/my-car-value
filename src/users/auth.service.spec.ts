@@ -2,7 +2,7 @@ import { Test } from "@nestjs/testing";
 import { AuthService } from "./auth.service";
 import { User } from "./user.entity";
 import { UsersService} from "./users.service";
-import { BadRequestException } from "@nestjs/common";
+import { BadRequestException, NotFoundException } from "@nestjs/common";
 
 describe ('AuthService', () =>
 {
@@ -53,4 +53,10 @@ describe ('AuthService', () =>
         await expect (service.signup('minga@gmail.com', 'Acredita'))
             .rejects.toThrowError (BadRequestException);
     });
+
+    it ('throws an error if the provided user email for the signin is not registered', async () =>
+    {
+        await expect (service.signin ('minga@gmail.com', 'Acredita'))
+            .rejects.toThrowError (NotFoundException);
+    })
 });
