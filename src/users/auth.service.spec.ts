@@ -59,4 +59,24 @@ describe ('AuthService', () =>
         await expect (service.signin ('minga@gmail.com', 'Acredita'))
             .rejects.toThrowError (NotFoundException);
     })
+
+    it ('throws an error if an invalid password is provided', async () =>
+    {
+        fakeUsersService.findByEmail = () => 
+            Promise.resolve ([{ email: 'nestjs@gmail.com', password: 'Acredita'} as User ]);
+        await expect (service.signin('nestjs@gmail.com', 'Acredita'))
+            .rejects.toThrowError (BadRequestException);
+    });
+
+    it ('returns a user if a valid password & email are provided', async () =>
+    {
+        fakeUsersService.findByEmail = () => 
+            Promise.resolve ([{ 
+                email: 'nestjs@gmail.com', 
+                password: 'd94104ccd65107a9.42756fc4b90458b2d236846ca3e1012fc9d87f8091d2f0b79dd040d58a1434bc'
+            } as User ]);
+        
+        const user = await service.signin ('something', 'Acredita'); 
+        expect (user).toBeDefined ();
+    });
 });
