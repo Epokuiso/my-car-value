@@ -7,14 +7,7 @@ const cookieSession = require ('cookie-session');
 
 const bootstrap = async () =>
 {
-    const app = await NestFactory.create (AppModule);
-    app.use (cookieSession ({
-        keys: ['epokuiso']
-    }));
-    app.useGlobalPipes (
-        new ValidationPipe ({
-            whitelist: true
-    }));
+    const app = await NestFactory.create (AppModule);    
     app.listen (4000);
 }
 
