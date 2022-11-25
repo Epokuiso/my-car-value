@@ -5,6 +5,7 @@ import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDTO } from './dtos/create-report.dto';
 import { Report } from './report.entity';
+import { GetEstimateDTO } from './dtos/get-estimate.dto';
 
 @Injectable()
 export class ReportsService 
@@ -27,5 +28,14 @@ export class ReportsService
             throw new NotFoundException ('Report not found.');
         report.approved = approved;
         return await this.repo.save (report);
+    }
+
+    async createEstimate (estimate: GetEstimateDTO)
+    {
+        return this.repo
+            .createQueryBuilder ()
+            .select ('*')
+            .where ('make = :make', { make: estimate.make })
+            .getRawMany ();   
     }
 }
