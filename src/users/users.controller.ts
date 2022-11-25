@@ -36,7 +36,7 @@ export class UsersController
         return user;
     }
 
-    @Post('/auth/signUp')
+    @Post('/auth/sign-up')
     create (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
         const user = this.authService.signup (userInformation.email, userInformation.password);
@@ -44,7 +44,7 @@ export class UsersController
         return user;      
     }
 
-    @Post('/auth/signIn')
+    @Post('/auth/sign-in')
     async signIn (@Body () userInformation: CreateUserDTO, @Session () session: any)
     {
         const user = await this.authService.signin (userInformation.email, userInformation.password);
@@ -52,7 +52,7 @@ export class UsersController
         return user;
     }
 
-    @Post('/auth/signOut')
+    @Post('/auth/sign-out')
     signOut (@Session () session: any)
     {
         session.userId = null;
