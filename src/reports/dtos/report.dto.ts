@@ -26,6 +26,9 @@ export class ReportDTO
     
     @Expose()
     latitude: number;
+
+    @Expose()
+    approved: boolean;
     
     @Transform(({ obj }) => obj.user.id)
     @Expose()
