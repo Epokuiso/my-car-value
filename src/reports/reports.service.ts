@@ -34,8 +34,15 @@ export class ReportsService
     {
         return this.repo
             .createQueryBuilder ()
-            .select ('*')
+            .select ('AVG(price)', 'price')
             .where ('make = :make', { make: estimate.make })
-            .getRawMany ();   
+            .andWhere ('model = :model', { model: estimate.model })
+            .andWhere ('longitude - :longitude BETWEEN -5 AND 5', { longitude: estimate.longitude })
+            .andWhere ('latitude - :latitude BETWEEN -5 AND 5', { latitude: estimate.latitude })
+            .andWhere ('year  - :year BETWEEN -3 AND 3', { year: estimate.year })
+            .orderBy ('ABS(mileage - :mileage)', 'DESC')
+            .setParameters ({ mileage: estimate.mileage })
+            .limit (3)
+            .getRawOne ();   
     }
 }
