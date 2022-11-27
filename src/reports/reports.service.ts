@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { find } from 'rxjs';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDTO } from './dtos/create-report.dto';
@@ -40,6 +39,7 @@ export class ReportsService
             .andWhere ('longitude - :longitude BETWEEN -5 AND 5', { longitude: estimate.longitude })
             .andWhere ('latitude - :latitude BETWEEN -5 AND 5', { latitude: estimate.latitude })
             .andWhere ('year  - :year BETWEEN -3 AND 3', { year: estimate.year })
+            .andWhere ('approved IS TRUE')
             .orderBy ('ABS(mileage - :mileage)', 'DESC')
             .setParameters ({ mileage: estimate.mileage })
             .limit (3)
